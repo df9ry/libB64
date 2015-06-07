@@ -23,6 +23,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <functional>
 
 namespace B64 {
 
@@ -71,7 +72,7 @@ namespace B64 {
 	 * @param s The base64 encoded string
 	 * @return Data vector as a moved unique pointer
 	 */
-	std::unique_ptr<std::vector<uint8_t>>&&
+	std::unique_ptr<std::vector<uint8_t>>
 		decode(const std::string& s);
 
 } // end namespace B64 //

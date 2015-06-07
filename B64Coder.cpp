@@ -22,10 +22,10 @@ using namespace std;
 
 namespace B64 {
 
-static constexpr char encTable[65] =
+static const char encTable[65] =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-static constexpr char decTable[256] = {
+static const char decTable[256] = {
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,
@@ -44,7 +44,8 @@ static constexpr char decTable[256] = {
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
 
-void encode(function<int()> rd, function<void(char)> wr) {
+void encode(function<int()> rd, function<void(char)> wr)
+{
 	char buff1[3];
 	char buff2[4];
 	uint8_t i = 0, j;
@@ -80,7 +81,8 @@ void encode(istream &in, ostringstream &out)
 			[&out](char ch){ out << ch; });
 }
 
-string encode(const vector<uint8_t>& v) {
+string encode(const vector<uint8_t>& v)
+{
 	vector<uint8_t>::const_iterator iter = v.begin();
 	ostringstream oss{};
 	encode([&v, &iter](){ return (iter != v.end()) ? *(iter++) : -1; },
@@ -88,7 +90,8 @@ string encode(const vector<uint8_t>& v) {
 	return oss.str();
 }
 
-void decode(function<int()> rd, function<void(uint8_t)> wr) {
+void decode(function<int()> rd, function<void(uint8_t)> wr)
+{
 	char buff1[4];
 	char buff2[4];
 	uint8_t i=0, j;
@@ -127,12 +130,13 @@ void decode(istringstream &in, ostream &out)
 			[&out](uint8_t x){ out << x; });
 }
 
-unique_ptr<vector<uint8_t>>&& decode(const string& s) {
+unique_ptr<vector<uint8_t>> decode(const string& s)
+{
 	string::const_iterator iter = s.begin();
-	auto pv = new vector<uint8_t>();
+	auto r = unique_ptr<vector<uint8_t>> {new vector<uint8_t>()};
 	encode([&s, &iter](){ return (iter != s.end()) ? *(iter++) : -1; },
-		   [&pv](uint8_t x){ pv->push_back(x); });
-	return move(unique_ptr<vector<uint8_t>>{pv});
+		   [&r](uint8_t x){ r.get()->push_back(x); });
+	return r;
 }
 
 } // end namespace B64
