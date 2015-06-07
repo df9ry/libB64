@@ -25,6 +25,16 @@
 #include <memory>
 #include <functional>
 
+#ifdef LIBB64_EXPORTS
+# ifdef _WIN32
+#  define LIBB64_EXPORT __declspec(dllexport)
+# else
+#  define LIBB64_EXPORT __attribute__ ((dllexport))
+# endif
+#else
+# define LIBB64_EXPORT
+#endif
+
 namespace B64 {
 
 	/**
@@ -35,21 +45,21 @@ namespace B64 {
 	 *           next byte shall be returned.
 	 * @param wr This lambda shall write the next char to the output.
 	 */
-	void encode(std::function<int()> rd, std::function<void(char)> wr);
+	LIBB64_EXPORT void encode(std::function<int()> rd, std::function<void(char)> wr);
 
 	/**
 	 * Encode a binary input stream into a base64 string stream.
 	 * @param in The binary input stream
 	 * @param out The encoded base64 string stream
 	 */
-	void encode(std::istream& in, std::ostringstream& out);
+	LIBB64_EXPORT void encode(std::istream& in, std::ostringstream& out);
 
 	/**
 	 * Encode binary data into a base64 coded string.
 	 * @param data
 	 * @return
 	 */
-	std::string encode(const std::vector<uint8_t>& data);
+	LIBB64_EXPORT std::string encode(const std::vector<uint8_t>& data);
 
 	/**
 	 * Decode a base64 coded input stream into a byte sequence.
@@ -58,21 +68,21 @@ namespace B64 {
 	 * @param wr This lambda shall write the next byte into the
 	 *           output stream.
 	 */
-	void decode(std::function<int()> rd, std::function<void(uint8_t)> wr);
+	LIBB64_EXPORT void decode(std::function<int()> rd, std::function<void(uint8_t)> wr);
 
 	/**
 	 * Decode a base64 string stream into a binary output stream
 	 * @param in Base64 encoded string stream
 	 * @param out Binary output stream
 	 */
-	void decode(std::istringstream& in, std::ostream& out);
+	LIBB64_EXPORT void decode(std::istringstream& in, std::ostream& out);
 
 	/**
 	 * Encode a base64 coded string to a binary vector.
 	 * @param s The base64 encoded string
 	 * @return Data vector as a moved unique pointer
 	 */
-	std::unique_ptr<std::vector<uint8_t>>
+	LIBB64_EXPORT std::unique_ptr<std::vector<uint8_t>>
 		decode(const std::string& s);
 
 } // end namespace B64 //
