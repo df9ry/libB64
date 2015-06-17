@@ -22,14 +22,11 @@ else
 VPATH = $(SRCDIR)
 
 CXXFLAGS =	-std=c++11 -pedantic -Wall -g -shared -fPIC -rdynamic \
-			-fmessage-length=0 -fexceptions -pthread \
-			-fvisibility=hidden \
-			-DLIBB64_EXPORTS
+			-fmessage-length=0 -fexceptions -pthread
 
 LDXFLAGS =	-std=c++11 -pedantic -Wall -g -shared -fPIC -rdynamic \
-			-fmessage-length=0 -fexceptions -pthread \
-			-fvisibility=hidden
-
+			-fmessage-length=0 -fexceptions -pthread
+			
 OBJS     =  B64Coder.o
 			
 LIBS     =  -lpthread
