@@ -48,7 +48,7 @@ void encode(function<int()> rd, function<void(char)> wr)
 {
 	char buff1[3];
 	char buff2[4];
-	uint8_t i = 0, j;
+	int i = 0, j;
 	int  ch;
 	while ((ch = rd()) != -1) {
 		buff1[i++] = static_cast<char>(ch);
@@ -85,7 +85,11 @@ string encode(const vector<uint8_t>& v)
 {
 	vector<uint8_t>::const_iterator iter = v.begin();
 	ostringstream oss{};
-	encode([&v, &iter](){ return (iter != v.end()) ? *(iter++) : -1; },
+	encode([&v, &iter](){
+		int c = (iter != v.end()) ? *iter : -1;
+		iter++;
+		return c;
+	},
 			[&oss](char ch){ oss << ch; });
 	return oss.str();
 }

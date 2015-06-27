@@ -35,6 +35,9 @@
 # define LIBB64_EXPORT
 #endif
 
+/**
+ * All functions are enclosed in this namespace.
+ */
 namespace B64 {
 
 	/**
@@ -49,14 +52,14 @@ namespace B64 {
 
 	/**
 	 * Encode a binary input stream into a base64 string stream.
-	 * @param in The binary input stream
+	 * @param in The binary input stream.
 	 * @param out The encoded base64 string stream
 	 */
 	LIBB64_EXPORT void encode(std::istream& in, std::ostringstream& out);
 
 	/**
 	 * Encode binary data into a base64 coded string.
-	 * @param data
+	 * @param data Data to encode.
 	 * @return
 	 */
 	LIBB64_EXPORT std::string encode(const std::vector<uint8_t>& data);
@@ -71,16 +74,16 @@ namespace B64 {
 	LIBB64_EXPORT void decode(std::function<int()> rd, std::function<void(uint8_t)> wr);
 
 	/**
-	 * Decode a base64 string stream into a binary output stream
-	 * @param in Base64 encoded string stream
-	 * @param out Binary output stream
+	 * Decode a base64 string stream into a binary output stream.
+	 * @param in Base64 encoded string stream.
+	 * @param out Binary output stream.
 	 */
 	LIBB64_EXPORT void decode(std::istringstream& in, std::ostream& out);
 
 	/**
 	 * Encode a base64 coded string to a binary vector.
-	 * @param s The base64 encoded string
-	 * @return Data vector as a moved unique pointer
+	 * @param s The base64 encoded string.
+	 * @return Data vector as a moved unique pointer.
 	 */
 	LIBB64_EXPORT std::unique_ptr<std::vector<uint8_t>>
 		decode(const std::string& s);

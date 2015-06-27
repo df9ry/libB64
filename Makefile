@@ -21,10 +21,10 @@ else
 
 VPATH = $(SRCDIR)
 
-CXXFLAGS =	-std=c++11 -pedantic -Wall -g -shared -fPIC -rdynamic \
+CXXFLAGS =	-std=c++11 -pedantic -Wall -g -shared -fPIC \
 			-fmessage-length=0 -fexceptions -pthread
 
-LDXFLAGS =	-std=c++11 -pedantic -Wall -g -shared -fPIC -rdynamic \
+LDXFLAGS =	-std=c++11 -pedantic -Wall -g -shared -fPIC \
 			-fmessage-length=0 -fexceptions -pthread
 			
 OBJS     =  B64Coder.o
@@ -42,5 +42,16 @@ $(TARGET):	$(OBJS)
 all: $(TARGET)
 	echo "Build OK"
 
+doc: $(DOCDIR)
+	doxygen ../doxygen.conf
+	( cd ../_doc/latex && make )
+	
+install:
+	sudo cp libB64.so /usr/local/lib/libB64.so.0.1.0
+	( cd /usr/local/lib && sudo chown root:staff libB64.so.0.1.0   )
+	( cd /usr/local/lib && sudo chmod 0755       libB64.so.0.1.0   )
+	( cd /usr/local/lib && sudo ln -sf libB64.so.0.1.0 libB64.so.0 )
+	( cd /usr/local/lib && sudo ln -sf libB64.so.0.1.0 libB64.so   )
+	
 #----- Begin Boilerplate
 endif
